@@ -1,0 +1,16 @@
+Some Docker commands that have helped me understand how to use Docker
+---------------------------------------------------------------------
+Lists all active containers
+    docker ps -a
+
+Creates a container that uses ubuntu as a shell, is removed when exited, will run the container in detached mode (meaning you'll have to navigate to the files you want), and is named mycontainer
+    docker run -it -d --rm --name mycontainer ubuntu /bin/bash
+
+Create a container that uses local volumn mapping for the working directory, the '-w' command will also start the container within that directory (like a performing a 'cd' command to a dir)
+    docker run --rm -v ${PWD}:/files -w /files klutchell/rar a myrar.rar myfile.txt
+
+Runs a local apache environment from a docker container - For this one, I had to end up installing curl on my container in order for it to work
+    docker run -d -p 8080:80 httpd
+
+Create container using php 7.2 and apache to serve code
+    docker run -d -p 8080:80 -v ${PWD}:/var/www/html php:7.2-apache
