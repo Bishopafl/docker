@@ -1,0 +1,51 @@
+* create a detached webserver named my-webserver via httpd that is removed upon exiting *
+
+    docker run --rm --name my-webserver -d httpd
+
+* view information about your webserver configuration. Networking will be helpful to note here * 
+
+    docker inspect my-webserver
+
+* Not that we have created a webserver, let's curl into it * 
+
+    docker run --rm tomw1808/mycurl my-webserver
+
+* Hmm... that doesn't work. What if we curled into the network IP?  *
+
+    docker run --rm tomw1808/mycurl 172.17.0.2
+
+* It works! This is not ideal however... Let's create a network for better connectivity! * 
+
+    docker network create simple-network
+
+* You can view your network is setup with the following command: *
+
+    docker network ls
+
+* Now that we have a network created, let's connected it to our webserver that we created earlier *
+* make sure you run docker stop to exit your previously created webserver.  *
+* We can make another while also connecting to our simple-network that we created  *
+
+    docker run --rm -d --name my-webserver --network simple-network httpd
+
+* Now lets try curling into the webserver we created by name instead of using the IP *
+
+    docker run --rm --network simple-network tomw1808/mycurl my-webserver
+
+* Let's inspect our webservers configuration *
+
+    docker inspect my-webserver
+
+* Now if we try to connect to our IP, we will be rejected because we have a designated network *
+* try running: *
+
+    docker run --rm tomw1808/mycurl 172.24.0.2
+
+* To stop your webserver *
+
+    docker stop my-webserver
+
+* To remove your created network *
+
+    docker network rm simple-network
+
