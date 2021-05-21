@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  phpapp:
+    image: php:7.2-apache #uses image of php with apache in our container, you can also upload a custom image to docker hub
+    ports:
+      - "8080:80"
+    volumes: 
+      - "./:/var/www/html" #allows for volumn mounting within our file system
+      
