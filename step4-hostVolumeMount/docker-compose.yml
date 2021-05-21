@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  phpapp:
+    build:
+        context: ./
+        dockerfile: Dockerfile
+    image: phpapp:123
+    ports:
+      - "8080:80"
+    volumes: 
+      - "./:/var/www/html" #allows for volumn mounting within our file system
+    container_name: my-php-app
+      
